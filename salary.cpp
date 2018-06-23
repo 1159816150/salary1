@@ -17,7 +17,166 @@ struct worker{
 
 void grsds()    //计算个人所得税函数
 {
+	p=&employee[n];
+	int flag=1;
+	double sum=0;    //计算个人所得税总和
+
+	if(p -> all_salary > 100000 )
+	{
+		flag=1;  
+		sum = ( p -> all_salary - 100000 ) * 0.45;
+	}
+	else
+	{
+		flag=0;
+	}
+
+	if(flag==1)
+	{
+		sum = sum + ( 100000 - 80000 ) * 0.4;
+	}
+    else
+	{
+		if(p -> all_salary > 80000 && p -> all_salary <= 100000 )
+		{
+			 flag=1;
+			 sum = ( p -> all_salary - 80000 ) * 0.4;
+		}
+		else
+		{
+		    flag=0;
+		}
+	}
+
+	if(flag==1)
+	{
+	    sum = sum + ( 80000 - 60000 )*0.35;
+	}
+	else
+	{
+		if(p -> all_salary > 60000 && p -> all_salary <= 80000)
+		{
+		     flag=1;
+			 sum = sum + ( p -> all_salary - 60000 ) * 0.35;
+		}
+		else
+		{
+		    flag=0;
+		}
+	}
+
+	if(flag==1)
+	{
+	    sum = sum + ( 60000 - 40000 )*0.3;
+	}
+	else
+	{
+        if(p -> all_salary > 40000 && p -> all_salary <= 60000)
+		{
+		     flag=1;
+			 sum = sum + ( p -> all_salary - 40000 ) * 0.3;
+		}
+		else
+		{
+		    flag=0;
+		}
+	}
+
+	if(flag==1)
+	{
+	    sum = sum + ( 40000 - 20000 )*0.25;
+	}
+	else
+	{
+        if(p -> all_salary > 20000 && p -> all_salary <= 40000)
+		{
+		     flag=1;
+			 sum = sum + ( p -> all_salary - 20000 ) * 0.25;
+		}
+		else
+		{
+		    flag=0;
+		}
+	}
+
+	if(flag==1)
+	{
+	    sum = sum + ( 20000 - 5000 )*0.2;
+	}
+	else
+	{
+       if(p -> all_salary > 5000 && p -> all_salary <= 20000)
+		{
+		     flag=1;
+			 sum = sum + ( p -> all_salary - 5000 ) * 0.2;
+		}
+		else
+		{
+		    flag=0;
+		}
+	}
+
+	if(flag==1)
+	{
+	    sum = sum + ( 5000 - 2000 ) * 0.15;
+	}
+	else
+	{
+       if(p -> all_salary > 2000 && p -> all_salary <= 5000)
+		{
+		     flag=1;
+			 sum = sum + ( p -> all_salary - 2000 ) * 0.15;
+		}
+		else
+		{
+		    flag=0;
+		}
+	}
+
+	if(flag==1)
+	{
+	    sum = sum + ( 2000 - 500 )*0.1;
+	}
+	else
+	{
+       	if(p -> all_salary > 500 && p -> all_salary <= 2000)
+		{
+		     flag=1;
+			 sum = sum + ( p -> all_salary - 500 ) * 0.1;
+		}
+		else
+		{
+		    flag=0;
+		}
+	}
+
 	
+	if(flag==1)
+	{
+	    sum = sum + 500 * 0.05;
+	}
+	else
+	{
+       	if(p -> all_salary > 0 && p -> all_salary <= 500)
+		{
+		     flag=1;
+			 sum = sum + p -> all_salary * 0.05;
+		}
+		else
+		{
+		    flag=0;
+		}
+	}
+	
+	if( p -> all_salary < 0 )
+	{
+		printf("数值为负");
+		exit(-1);
+	}
+
+	p -> tax = sum;
+
+	}
 /*	if(p -> all_salary <= 500 && p -> all_salary >= 0)
 	{
 		p -> tax = p -> all_salary * 0.05;
@@ -58,29 +217,52 @@ void grsds()    //计算个人所得税函数
 	{
 	printf("数值为负");
 	}*/
-}	
-
+	
 void add_worker()    //添加函数
 {   
-	n++;
-	p=&employee[n];
+	int k;    //记录输入工号是否重复
+	char gonghao[10];
+	p = &employee[n];
 	printf("请输入添加员工的工号：");
-	scanf("%s",&p -> id);
+	while(1)
+	{
+		scanf("%s",gonghao);
+
+   		for(i=0;i<n;i++)
+		{
+			k=strcmp(gonghao,employee[i].id);
+			
+			if(k==0)
+			{
+				printf("工号已存在,请重新输入:");	
+				break;
+			}
+		}
+
+		if(k!=0)
+		{
+			break;
+		}
+	}
+
+	strcpy(p->id,gonghao);
 	printf("请输入添加员工的姓名：");
-	scanf("%s",&p -> name);
+	scanf("%s",p -> name);
 	printf("请输入添加员工的岗位工资：");
-	scanf("%s",&p -> post_salary);
+	scanf("%f",&(p -> post_salary));
 	printf("请输入添加员工的薪级工资：");
-	scanf("%s",&p -> age_salary);
+	scanf("%f",&(p -> age_salary));
 	printf("请输入添加员工的职务津贴：");
-	scanf("%s",&p -> job_salary);
+	scanf("%f",&(p -> job_salary));
 	printf("请输入添加员工的效绩工资：");
-	scanf("%s",&p -> ach_salary);
+	scanf("%f",&(p -> ach_salary));
 	printf("\n");
 	//printf("应发工资：");
 	p -> all_salary = p -> ach_salary + p -> job_salary + p -> post_salary + p -> age_salary;
 	grsds();
 	p -> ture_salary= p -> all_salary - p-> tax;
+	printf("职工信息录入成功！\n");
+	n+=1;
 };	
 
 void del_worker()       //删除函数
@@ -328,7 +510,7 @@ while(flag)
 	case 1:seek_worker();break;
 	case 2:see_worker();break;
 	case 3:change_worker();break;
-	//case 4:add_worker();break;
+	case 4:add_worker();break;
 	case 5:del_worker();break;
 	case 6:save();break;	
 	case 7: flag = 0; break;
