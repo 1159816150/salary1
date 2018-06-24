@@ -2,7 +2,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-int i = 0;	//循环变量
+int i = 0, j = 0;	//循环变量
 int n = 0;    //员工总人数
 struct worker{
 	char id[10],name[20];   //员工工号和姓名
@@ -177,47 +177,7 @@ void grsds()    //计算个人所得税函数
 	p -> tax = sum;
 
 	}
-/*	if(p -> all_salary <= 500 && p -> all_salary >= 0)
-	{
-		p -> tax = p -> all_salary * 0.05;
-	}
-	else if(p -> all_salary > 500 && p -> all_salary <= 2000)
-	{
-		p -> tax= p -> all_salary * 0.1;
-	}
-	else if(p -> all_salary > 2000 && p -> all_salary <= 5000)
-	{
-		p -> tax = p -> all_salary * 0.15;
-	}
-	else if(p -> all_salary > 5000 && p -> all_salary <= 20000)
-	{
-		p -> tax = p -> all_salary * 0.2;
-	}
-	else if(p -> all_salary > 20000 && p -> all_salary <= 40000)
-	{
-		p -> tax = p -> all_salary * 0.25;
-	}
-	else if(p -> all_salary > 40000 && p -> all_salary <= 60000)
-	{
-		p -> tax = p -> all_salary * 0.3;
-	}
-	else if(p -> all_salary > 60000 && p -> all_salary <= 80000)
-	{
-		p -> tax = p -> all_salary * 0.35;
-	}
-	else if(p -> all_salary > 80000 && p -> all_salary <= 100000)
-	{
-		p -> tax = p -> all_salary * 0.4;
-	}
-	else if(p -> all_salary > 100000)
-	{
-		p -> tax = p -> all_salary * 0.45;
-	}
-	else
-	{
-	printf("数值为负");
-	}*/
-	
+
 void add_worker()    //添加函数
 {   
 	int k;    //记录输入工号是否重复
@@ -267,23 +227,72 @@ void add_worker()    //添加函数
 
 void del_worker()       //删除函数
 {
-	int k;    //记录查找员工下标	
+	int flag;
+	int k;    //用于判断员工工号是否相等		
 	char gonghao[10];
 	printf("请输入需要删除员工的工号:");
 	scanf("%s",gonghao);
+	printf("该职工信息：\n");
 	for(i=0;i<n;i++)
 	{
 		if(strcmp(gonghao,employee[i].id)==0)
 		{
-			printf("%s %s %.2f %.2f %.2f %.2f %.2f %.2f %.2f",employee[i].id,employee[i].name,employee[i].post_salary,employee[i].job_salary,employee[i].age_salary,employee[i].ach_salary,employee[i].all_salary,employee[i].tax,employee[i].ture_salary);
-			printf("\n");
+			printf("工号：");
+			printf("%s\n", employee[i].id);
+
+			printf("姓名：");
+			printf("%s\n", employee[i].name);
+
+			printf("岗位工资：");
+			printf("%.2f\n", employee[i].post_salary);
+
+			printf("薪级工资：");
+			printf("%.2f\n", employee[i].job_salary);
+
+			printf("职务津贴：");
+			printf("%.2f\n", employee[i].age_salary);
+
+			printf("效绩工资：");
+			printf("%.2f\n", employee[i].ach_salary);
+
+			printf("应发工资：");
+			printf("%.2f\n", employee[i].all_salary);
+
+			printf("个人所得税：");
+			printf("%.2f\n", employee[i].tax);
+
+			printf("实发工资：");
+			printf("%.2f\n", employee[i].ture_salary);
+
+			printf("--------------------------------------\n");
+			printf("请确认是否删除,确认删除请按1，放弃删除请按0\n");
+			
+			scanf("%d",k);
+			if(k==1)
+			{
+				for(j=i;j<n;j++)
+				{
+					employee[j]=employee[j+1];
+				}
+			}
+			flag=0;	
 		}
+	}
+	if(!flag)
+	{
+		n=n-1;
+		printf("删除成功\n");
+	}
+	else
+	{
+		printf("无此员工\n");
+	
 	}
 };		
 
 void seek_worker()		//查找函数
 {
-	int k=1;    //记录查找员工下标	
+	int k=1;    //用于判断员工工号是否相等		
 	char gonghao[10];
 	printf("请输入需要查找员工的工号:");
 	scanf("%s",gonghao);
@@ -334,42 +343,43 @@ void seek_worker()		//查找函数
 
 void change_worker()    //修改函数
 {
+	int k=1;    //用于判断员工工号是否相等	
 	char gonghao[10];
 	printf("请输入需要修改员工的工号:");
-	gets(gonghao);
-
+	scanf("%s",gonghao);
 	for(i=0;i<n;i++)
 	{
-		if(strcmp(gonghao,employee[i].id)==0)
+		k=strcmp(gonghao,employee[i].id);
+		if(k==0)
 		{
 			printf("请输入员工工号：");
 			scanf("%s", &employee[i].id);
-			printf("\n");
+
 			printf("姓名：");
 			scanf("%s", &employee[i].name);
-			printf("\n");
+
 			printf("岗位工资：");
 			scanf("%f", &employee[i].post_salary);
-			printf("\n");
+
 			printf("薪级工资：");
 			scanf("%f", &employee[i].age_salary);
-			printf("\n");
+
 			printf("职务津贴:");
 			scanf("%f", &employee[i].job_salary);
-			printf("\n");
+
 			printf("效绩工资:");
 			scanf("%f", &employee[i].ach_salary);
-			printf("\n");
-			//printf("应发工资：");
+
 			employee[i].all_salary=employee[i].ach_salary+employee[i].job_salary+employee[i].post_salary+employee[i].age_salary;
 			grsds();
 			employee[i].ture_salary=employee[i].all_salary-employee[i].tax;
+			break;
 		}
-		else
+	}
+	if(k!=0)
 		{
 			printf("该员工不存在\n");
 		}
-	}
 };	
 
 void see_worker()    //浏览函数
@@ -446,10 +456,31 @@ void save()			//保存函数
 	}
 		fclose(fp);
 	}	
+	printf("文件保存成功\n");
 
 }
+int Exit()
+{
+	int flag=1;
+	int m;
+	printf("您是否已保存文件，若未保存请选取是否保存\n1--Y\t0--N\n");
+	while(flag)
+	{
+		scanf("%d",&m);
+		switch(m)
+		{
+			case 0:	flag=0;	break;
+				
+			case 1:	flag=0;	save();	break;	
+				
+			default:printf("请选择1\tor\t0\n");flag=1;
+				
+		}
 
-void Exit();			//退出函数	
+	}
+	printf("已安全退出\n");
+	return flag;
+};			//退出函数	
 
 void open_file()		//打开文件函数
 {
@@ -476,13 +507,39 @@ void open_file()		//打开文件函数
 		
 	}
 
-	printf("共有%d条记录被输入数组\n",n);
-
 	for ( i = 0;i < n;i ++)
 	{
-		printf("%s %s %.2f %.2f %.2f %.2f %.2f %.2f %.2f",employee[i].id,employee[i].name,employee[i].post_salary,employee[i].job_salary,employee[i].age_salary,employee[i].ach_salary,employee[i].all_salary,employee[i].tax,employee[i].ture_salary);
+		printf("工号：");
+		printf("%s\n", employee[i].id);
+
+		printf("姓名：");
+		printf("%s\n", employee[i].name);
+
+		printf("岗位工资：");
+		printf("%.2f\n", employee[i].post_salary);
+
+		printf("薪级工资：");
+		printf("%.2f\n", employee[i].job_salary);
+
+		printf("职务津贴：");
+		printf("%.2f\n", employee[i].age_salary);
+
+		printf("效绩工资：");
+		printf("%.2f\n", employee[i].ach_salary);
+
+		printf("应发工资：");
+		printf("%.2f\n", employee[i].all_salary);
+
+		printf("个人所得税：");
+		printf("%.2f\n", employee[i].tax);
+
+		printf("实发工资：");
+		printf("%.2f\n", employee[i].ture_salary);
+
 		printf("\n");
+
 	}
+	printf("共有%d条记录被输入数组\n",n);
 	
 }
 
@@ -507,14 +564,14 @@ while(flag)
 	scanf("%d",&member);
 	switch(member)
 	{
-	case 1:seek_worker();break;
-	case 2:see_worker();break;
-	case 3:change_worker();break;
-	case 4:add_worker();break;
-	case 5:del_worker();break;
-	case 6:save();break;	
-	case 7: flag = 0; break;
-	default:printf("没有此功能");
+	    case 1:seek_worker();break;
+	    case 2:see_worker();break;
+    	case 3:change_worker();break;
+	    case 4:add_worker();break;
+    	case 5:del_worker();break;
+    	case 6:save();break;	
+    	case 7:flag=Exit();break;
+     	default:printf("没有此功能");
 	}
 }	
 return 0;
