@@ -205,8 +205,8 @@ void add_worker()    //添加函数
 			break;
 		}
 	}
-
-    strcpy(p -> id,gonghao);
+	
+	strcpy(p -> id,gonghao);
 	
 	printf("请输入添加员工的姓名：");
 	scanf("%s",p -> name);
