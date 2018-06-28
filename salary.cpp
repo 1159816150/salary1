@@ -1,3 +1,16 @@
+/******************************************************************************
+Copyright (C), 1988-1999, Huawei Tech. Co., Ltd.
+ File name: salary.c    // 文件名
+ Author: Version: Date:     // 作者、版本及完成日期
+ Description: // 用于详细说明此程序文件完成的主要功能，与其他模块
+ // 或函数的接口，输出值、取值范围、含义及参数间的控
+ // 制、顺序、独立或依赖等关系
+ Others: // 其它内容的说明
+ Function List: // 主要函数列表，每条记录应包括函数名及功能简要说明
+ 1. ....
+ History: // 修改历史记录列表，每条修改记录应包括修改日期、修改
+
+*******************************************************************************/
 #include<conio.h>
 #include<stdio.h>
 #include<stdlib.h>
@@ -587,11 +600,11 @@ int main(){
 		printf("\n");
 		printf("---------------------------------------------------------------\n");
 		printf("1、查询员工信息\t");
-		printf("2、浏览员工信息\t");
-		printf("3、修改员工信息\t");
-		printf("4、添加员工\n");
-		printf("5、删除员工\t");
-		printf("6、保存员工信息\t");
+		printf("2、修改员工信息\t");
+		printf("3、添加员工信息\t");
+		printf("4、删除员工信息\n");
+		printf("5、保存员工信息\t");
+		printf("6、浏览员工信息\t");
 		printf("7、退出程序\n");
 		printf("请根据数字使用相应功能\n");
 		printf("---------------------------------------------------------------\n");
@@ -599,11 +612,11 @@ int main(){
 		switch(member)
 		{
 		case 1:seek_worker();break;
-		case 2:see_worker();break;
-		case 3:change_worker();break;
-		case 4:add_worker();break;
-		case 5:del_worker();break;
-		case 6:save();break;	
+		case 2:change_worker();break;
+		case 3:add_worker();break;
+		case 4:del_worker();break;
+		case 5:save();break;
+		case 6:see_worker();break;
 		case 7:flag=Exit();break;
 		default:printf("没有此功能");
 		}
