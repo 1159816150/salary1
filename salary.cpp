@@ -24,9 +24,7 @@ employee *createlist()       //创建有n个元素的双向链表 并输入元素
     head->prev = head;
     head->next = head;
     p = head;
-    printf("输入要创建双向链表的元素的个数：\n");
-    scanf("%d",&n);
-    for(int i=0;i<n;i++)
+    for(int i=0;i<100;i++)
     {
         q = (employee *)malloc(sizeof(employee));
         p->next = q;
@@ -203,27 +201,33 @@ void grsds(struct worker *q)    //计算个人所得税函数
 
 }
 
-void add_worker(employee *head)    //添加员工函数
+void add_worker(employee *head,int m)    //添加员工函数
 {   
-	employee *p,*q;
-	p = head;
-	q = (employee *)malloc(sizeof(employee));
-	q->prev = p->prev;
-	q = p->prev->next;
-	p->prev = q;
-	p = q->next;
-	p = p->next;
 	int k;    //记录输入工号是否重复
 	char gonghao[10];
+	employee *p,*q;
+	p = head;
+	p = p->next;
+	m--;
+	while(m--)
+	{
+		p = p->next;
+	}
+	q = (employee *)malloc(sizeof(employee));
+    (p->prev)->next = q;
+	q->prev = p->prev;
+	q->next = p;
+	p->prev = q;
 	printf("---------------------------添加--------------------------\n\n");
 	printf("请输入添加员工的工号：");
+	p = head;
+	p = p->next;
 	while(1)
 	{
 		scanf("%s",gonghao);
 
-		while(p!=head)
+		for(i = 0;i < n+1; i++)
 		{
-		
 			k=strcmp(gonghao,p->id);
 			p = p->next;
 			if(k == 0)
@@ -233,7 +237,7 @@ void add_worker(employee *head)    //添加员工函数
 			}
 		}
 
-		if(k!=0)
+		if(k != 0)
 		{
 			break;
 		}
@@ -270,16 +274,18 @@ void add_worker(employee *head)    //添加员工函数
 	
 	printf("职工信息录入成功！\n");
 	n = n + 1;
+
 };	
 
 void del_worker(employee *head)       //删除函数
 {
-	employee *p;
-	p = head;
-	p = p->next;
 	int flag = 0;    //用于判断员工是否删除
 	int k = 1;    //用于判断员工工号是否相等
 	char gonghao[10];
+	employee *p;
+	p = head;
+	p = p->next;
+
 	printf("---------------------------删除--------------------------\n\n");
 	printf("请输入需要删除员工的工号:");
 	scanf("%s",gonghao);
@@ -351,12 +357,12 @@ void del_worker(employee *head)       //删除函数
 };		
 
 void seek_worker(employee *head)		//查找函数
-{
+{	
+	int k = 1;    //用于判断员工工号是否相等
+	char gonghao[10];
 	employee *p;
 	p = head;
 	p = p->next;
-	int k = 1;    //用于判断员工工号是否相等
-	char gonghao[10];
 	printf("---------------------------查询--------------------------\n\n");
 	printf("请输入需要查找员工的工号:");
 	scanf("%s",gonghao);
@@ -395,6 +401,8 @@ void seek_worker(employee *head)		//查找函数
 			printf("%.2f\n", p->ture_salary);
 			
 			printf("--------------------------------------\n");
+
+		break;
 			
 		}
 
@@ -409,11 +417,12 @@ void seek_worker(employee *head)		//查找函数
 
 void change_worker(employee *head)    //修改函数
 {
+	int k = 1;    //用于判断员工工号是否相等
+	char gonghao[10];
 	employee *p;
 	p = head;
 	p = p->next;
-	int k = 1;    //用于判断员工工号是否相等
-	char gonghao[10];
+	
 	printf("---------------------------修改--------------------------\n\n");
 	printf("请输入需要修改员工的工号:");
 	scanf("%s",gonghao);
@@ -469,7 +478,7 @@ void see_worker(employee *head)    //浏览函数
 
 	printf("---------------------------浏览--------------------------\n\n");
 
-	while(p!=head)
+	for(i = 0;i < n;i++)
 	{
 		printf("职工信息如下：\n\n");
 
@@ -499,10 +508,6 @@ void see_worker(employee *head)    //浏览函数
 			
 		printf("实发工资：");
 		printf("%.2f\n", p->ture_salary);
-			
-		printf("--------------------------------------\n");
-			
-		
 
 		p = p->next;
 	}
@@ -562,11 +567,10 @@ int Exit()	//退出函数
 
 void open_file(employee *head)		//打开文件函数
 {
+	FILE *fp = fopen("22.txt","rb");
 	employee *p = head;
 	p = p->next;
-	printf("%d\n",n);
-	FILE *fp = fopen("22.txt","rb");
-	
+		
 	if(fp == NULL)
 	{ 
 		printf("can not open file!\n");
@@ -582,7 +586,7 @@ void open_file(employee *head)		//打开文件函数
 			&p->ach_salary , &p->all_salary ,
 			&p->tax , &p->ture_salary);
 
-		p=p->next;
+		p = p->next;
 		
 		if (nRes == -1)
 		{
@@ -592,8 +596,11 @@ void open_file(employee *head)		//打开文件函数
 		}	
 		
 	}
-	
-	for ( i = 0;i < n;i++)
+
+	p=head;
+	p=p->next;
+
+	for(i = 0;i < n;i++)
 	{
 		printf("工号：");
 		printf("%s\n", p->id);
@@ -622,16 +629,18 @@ void open_file(employee *head)		//打开文件函数
 		printf("实发工资：");
 		printf("%.2f\n", p->ture_salary);
 
-		printf("%d\n",n);
+		p=p->next;
+		printf("\n");
 	}
 }
+
 
 int main()
 {
 	employee *head;
-	head = createlist();
 	int member;    //作为选项参数
 	int flag = 1;
+	head = createlist();
 	open_file(head);
 	while(flag)
 	{
@@ -652,7 +661,7 @@ int main()
 		{
 		case 1:seek_worker(head);break;
 		case 2:change_worker(head);break;
-		case 3:add_worker(head);break;
+		case 3:add_worker(head,n);break;
 		case 4:del_worker(head);break;
 		case 5:save(head);break;
 		case 6:see_worker(head);break;
