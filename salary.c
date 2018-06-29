@@ -561,41 +561,6 @@ void open_file()		//打开文件函数
 		}	
 		
 	}
-
-	for ( i = 0;i < n; i++)
-	{
-		printf("工号：");
-		printf("%s\n", employee[i].id);
-		
-		printf("姓名：");
-		printf("%s\n", employee[i].name);
-		
-		printf("岗位工资：");
-		printf("%.2f\n", employee[i].post_salary);
-		
-		printf("薪级工资：");
-		printf("%.2f\n", employee[i].job_salary);
-		
-		printf("职务津贴：");
-		printf("%.2f\n", employee[i].age_salary);
-		
-		printf("效绩工资：");
-		printf("%.2f\n", employee[i].ach_salary);
-		
-		printf("应发工资：");
-		printf("%.2f\n", employee[i].all_salary);
-		
-		printf("个人所得税：");	
-		printf("%.2f\n", employee[i].tax);
-		
-		printf("实发工资：");
-		printf("%.2f\n", employee[i].ture_salary);
-		
-		printf("\n");
-	
-	}
-	
-	printf("共有%d条记录被输入数组\n",n);	
 }
 
 int main(){
@@ -604,18 +569,18 @@ int main(){
 	open_file();
 	while(flag)
 	{
-		printf("\n");
-		printf("\n");
-		printf("---------------------------------------------------------------\n");
-		printf("1、查询员工信息\t");
-		printf("2、修改员工信息\t");
-		printf("3、添加员工信息\t");
-		printf("4、删除员工信息\n");
-		printf("5、保存员工信息\t");
-		printf("6、浏览员工信息\t");
-		printf("7、退出程序\n");
-		printf("请根据数字使用相应功能\n");
-		printf("---------------------------------------------------------------\n");
+		printf("\t###  欢迎使用广西民族大学软件与信息安全学院职工工资管理系统  ###\n\n");
+		printf("\t请选择<1 - 7>:\n");
+		printf("\t===============================================================\n");
+		printf("\t|\t1.查询职工工资记录                                    |\n");
+		printf("\t|\t2.修改职工工资记录                                    |\n");
+		printf("\t|\t3.添加职工工资记录                                    |\n");
+		printf("\t|\t4.删除职工工资记录                                    |\n");
+		printf("\t|\t5.保存数据到文件                                      |\n");
+		printf("\t|\t6.浏览职工记录                                        |\n");
+		printf("\t|\t7.退出系统                                            |\n");
+		printf("\t===============================================================\n\n");
+		printf("\t你的选择是：\n");
 		scanf("%d",&member);
 		switch(member)
 		{
