@@ -6,7 +6,7 @@ int i = 0, j = 0;	//循环变量
 int n = 0;    //员工总人数
 typedef struct worker
 {
-	char id[10],name[20];    //员工工号和姓名
+    char id[10],name[20];    //员工工号和姓名
     float post_salary;    //岗位工资
     float age_salary;    //薪级工资	
     float job_salary;    //职务津贴
@@ -41,7 +41,7 @@ employee *createlist()       //创建有50个元素的双向链表
 
 void grsds(struct worker *q)    //计算个人所得税函数
 {
-	int flag = 1;    //用于判断应得金额的位置
+    int flag = 1;    //用于判断应得金额的位置
     double sum = 0;    //计算个人所得税总和
     employee *p = q;    //获得当前指针指向的员工
    
