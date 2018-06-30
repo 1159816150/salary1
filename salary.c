@@ -6,19 +6,19 @@ int i = 0, j = 0;	//循环变量
 int n = 0;    //员工总人数
 typedef struct worker
 {
-	char id[10],name[20];   //员工工号和姓名
-    float post_salary;		//岗位工资
-    float age_salary;		//薪级工资	
-    float job_salary;		//职务津贴
-    float ach_salary;		//效绩工资
-    float all_salary;		//应发工资
-    float tax;				//个人所得税	
-    float ture_salary;		//实发工资
-    struct worker *prev;
+	char id[10],name[20];    //员工工号和姓名
+    float post_salary;    //岗位工资
+    float age_salary;    //薪级工资	
+    float job_salary;    //职务津贴
+    float ach_salary;    //效绩工资
+    float all_salary;    //应发工资
+    float tax;    //个人所得税	
+    float ture_salary;    //实发工资
+    struct worker *prev;   
     struct worker *next;
 }employee;
 
-employee *createlist()       //创建有n个元素的双向链表 并输入元素
+employee *createlist()       //创建有50个元素的双向链表 
 {
     employee *head, *p, *q;
     head = (employee *)malloc(sizeof(employee));
@@ -26,7 +26,7 @@ employee *createlist()       //创建有n个元素的双向链表 并输入元素
     head->next = head;
     p = head;
 
-    for(i = 0;i < 50;i++)
+    for(i = 0;i < 50;i++)    
     {
         q = (employee *)malloc(sizeof(employee));
         p->next = q;
