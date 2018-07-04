@@ -217,8 +217,8 @@ void add_worker(employee *head,int m)    //添加员工函数
 		m = m - 1;
 	}
 
-	q = (employee *)malloc(sizeof(employee));    //在第n个员工后插入节点 
-    (p->prev)->next = q;
+	q = (employee *)malloc(sizeof(employee));    //在第n个员工后插入节点
+	(p->prev)->next = q;
 	q->prev = p->prev;
 	q->next = p;
 	p->prev = q;
