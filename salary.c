@@ -1,3 +1,24 @@
+/******************************************************************************
+Copyright (C), 1988-1999, Huawei Tech. Co., Ltd.
+ File name: salary.c    // 文件名
+ Author: 陈磊      Version: 0.1    Date:2018.06.28     // 作者、版本及完成日期
+ Description:  用于计算员工的工资 // 用于详细说明此程序文件完成的主要功能，与其他模块
+                                  // 或函数的接口，输出值、取值范围、含义及参数间的控
+                                  // 制、顺序、独立或依赖等关系
+ Others: 可计算个人所得税 // 其它内容的说明
+ Function List: // 主要函数列表，每条记录应包括函数名及功能简要说明
+
+ 1.void grsds(struct worker *q)    //计算个人所得税函数
+ 2.void add_worker()    //添加员工函数
+ 3.void del_worker()       //删除员工函数
+ 4.void seek_worker()		//查找员工函数
+ 5.void change_worker()    //修改员工信息函数
+ 6.void see_worker()    //浏览函数
+ 7.int Exit()	//    退出程序函数
+
+ History: // 修改历史记录列表，每条修改记录应包括修改日期、修改
+
+*******************************************************************************/
 #include<stdio.h>
 #include<stdlib.h>
 #include<malloc.h>
