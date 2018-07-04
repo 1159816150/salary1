@@ -206,18 +206,18 @@ void grsds(struct worker *q)    //计算个人所得税函数
 void add_worker(employee *head,int m)    //添加员工函数
 {
 	int k;    //记录输入工号是否重复
-	char gonghao[10];
-	employee *p,*q;
+	char gonghao[10];    //定义员工工号
+	employee *p,*q;  
 	p = head;
 	p = p->next;
 
-	while(m)
+	while(m)    //得到第n个链表节点
 	{
 		p = p->next;
-		m=m-1;
+		m = m - 1;
 	}
 
-	q = (employee *)malloc(sizeof(employee));
+	q = (employee *)malloc(sizeof(employee));    //在第n个员工后插入节点  
     (p->prev)->next = q;
 	q->prev = p->prev;
 	q->next = p;
@@ -226,7 +226,7 @@ void add_worker(employee *head,int m)    //添加员工函数
 	printf("请输入添加员工的工号：");
 	p = head;
 	p = p->next;
-	while(1)
+	while(1)    //遍历结构体数组，查找有无该编号的员工
 	{
 		scanf("%s",gonghao);
 
@@ -278,14 +278,14 @@ void add_worker(employee *head,int m)    //添加员工函数
 	
 	printf("职工信息录入成功！\n");
 	n = n + 1;
-
+	printf("\n---------------------------------------------------------\n");
 };	
 
 void del_worker(employee *head)       //删除函数
 {
 	int flag = 0;    //用于判断员工是否删除
 	int k = 1;    //用于判断员工工号是否相等
-	char gonghao[10];
+	char gonghao[10];    //定义员工工号
 	employee *p;
 	p = head;
 	p = p->next;
@@ -327,8 +327,7 @@ void del_worker(employee *head)       //删除函数
 			
 			printf("实发工资：");
 			printf("%.2f\n", p->ture_salary);
-			
-			printf("--------------------------------------\n");
+			printf("\n---------------------------------------------------------\n");
 			printf("请确认是否删除,确认删除请按1，放弃删除请按0\n");
 			
 			scanf("%d",&flag);
@@ -358,6 +357,8 @@ void del_worker(employee *head)       //删除函数
 	{
 		printf("取消删除\n");
 	}
+	
+	printf("\n---------------------------------------------------------\n");
 };		
 
 void seek_worker(employee *head)		//查找函数
@@ -404,8 +405,7 @@ void seek_worker(employee *head)		//查找函数
 			printf("实发工资：");
 			printf("%.2f\n", p->ture_salary);
 			
-			printf("--------------------------------------\n");
-
+			printf("\n---------------------------------------------------------\n");
 		break;
 			
 		}
@@ -417,6 +417,8 @@ void seek_worker(employee *head)		//查找函数
 	{
 		printf("该员工不存在\n");
 	}
+
+	printf("\n\n");
 }
 
 void change_worker(employee *head)    //修改函数
@@ -462,7 +464,8 @@ void change_worker(employee *head)    //修改函数
 			grsds(p);
 			
 			p->ture_salary = p->all_salary - p->tax;
-			
+		
+			printf("修改成功\n");
 			break;
 		}
 
@@ -472,6 +475,8 @@ void change_worker(employee *head)    //修改函数
 	{
 		printf("该员工不存在\n");
 	}
+	
+	printf("\n---------------------------------------------------------\n");
 };
 	
 void see_worker(employee *head)    //浏览函数
@@ -482,11 +487,11 @@ void see_worker(employee *head)    //浏览函数
 
 	printf("---------------------------浏览--------------------------\n\n");
 
-	printf("职工信息如下：\n\n");
+	printf("职工信息如下：\n");
 
 	for(i = 0;i < n;i++)
 	{
-		printf("\n\n");
+		printf("\n");
 
 		printf("工号：");
 		printf("%s\n", p->id);
@@ -518,7 +523,7 @@ void see_worker(employee *head)    //浏览函数
 		p = p->next;
 	}
 
-	printf("\n\n");
+	printf("\n---------------------------------------------------------\n");
 };		
 	
 void save(employee *head)			//保存函数
@@ -554,14 +559,14 @@ void save(employee *head)			//保存函数
 				p->tax , p->ture_salary);
 			
 			fprintf(fp,"\n");
-			p=p->next;
-		}
+			p = p->next;
+		} 
 		
 		fclose(fp);
 	}
 	
 	printf("文件保存成功\n");
-
+	printf("\n---------------------------------------------------------\n");
 }
 
 int Exit()	//退出函数	
@@ -569,6 +574,7 @@ int Exit()	//退出函数
 	int flag = 0;
 	printf("---------------------------退出--------------------------\n\n");
 	printf("已安全退出\n");
+	printf("\n---------------------------------------------------------\n");
 	return flag;
 };		
 
@@ -585,7 +591,7 @@ void open_file(employee *head)		//打开文件函数
 		exit(-1);
 	}
 	
-	for( i = 0;i < 100; i++)
+	for( i = 0;i < 100; i++)    //将文件成员依次读入结构体
 	{
 		int nRes = fscanf(fp,"%s%s%f%f%f%f%f%f%f",
 			&p->id , &p->name , &p->post_salary , 
@@ -593,9 +599,9 @@ void open_file(employee *head)		//打开文件函数
 			&p->ach_salary , &p->all_salary ,
 			&p->tax , &p->ture_salary);
 
-		p = p->next;
+		p = p->next;    //指向下一个节点
 		
-		if (nRes == -1)
+		if (nRes == -1)    //读完数据结束循环，得到成员数
 		{
 			n = i;
 			fclose(fp);
@@ -604,7 +610,7 @@ void open_file(employee *head)		//打开文件函数
 		
 	}
 
-	p=head;
+/*	p=head;
 	p=p->next;
 
 	for(i = 0;i < n;i++)
@@ -639,13 +645,15 @@ void open_file(employee *head)		//打开文件函数
 		p=p->next;
 		printf("\n");
 	}
+*/
+	printf("共有%d条记录被读取\n\n",n);
 }
 
 
 int main()
 {
 	employee *head;
-	int member;    //作为选项参数
+	int choose;    //作为选项参数
 	int flag = 1;
 	head = createlist();
 	open_file(head);
@@ -663,8 +671,8 @@ int main()
 		printf("\t|\t7.退出系统                                            |\n");
 		printf("\t===============================================================\n\n");
 		printf("\t你的选择是：\n");
-		scanf("%d",&member);
-		switch(member)
+		scanf("%d",&choose);
+		switch(choose)
 		{
 		case 1:seek_worker(head);break;
 		case 2:change_worker(head);break;
@@ -673,7 +681,7 @@ int main()
 		case 5:save(head);break;
 		case 6:see_worker(head);break;
 		case 7:flag=Exit();break;
-		default:printf("没有此功能");
+		default:printf("没有此功能\n\n");
 		}
 	}
 
