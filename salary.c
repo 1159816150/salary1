@@ -27,18 +27,6 @@ Copyright (C), 1988-1999, Huawei Tech. Co., Ltd.
 #include<string.h>
 int i = 0, j = 0;	//循环变量
 int n = 0;    //员工总人数
-
-struct people{
-    char id[10],name[20];   //员工工号和姓名
-    float post_salary;		//岗位工资
-    float age_salary;		//薪级工资	
-    float job_salary;		//职务津贴
-    float ach_salary;		//效绩工资
-    float all_salary;		//应发工资
-    float tax;				//个人所得税	
-    float ture_salary;		//实发工资
-}member[1000];
-
 typedef struct worker
 {
     char id[10],name[20];    //员工工号和姓名
@@ -53,23 +41,51 @@ typedef struct worker
     struct worker *next;
 }employee;
 
-employee *createlist()       //创建有50个元素的双向链表 
+employee *createlist()       //创建有n个元素的双向链表 
 {
-    employee *head, *p, *q;
+	char ch;
+	int m;
+	FILE *fp = fopen("gx.dat","rb");
+    employee *head, *p, *q, *s;
     head = (employee *)malloc(sizeof(employee));
     head->prev = head;
     head->next = head;
     p = head;
 
-    for(i = 0;i < n;i++)    
-    {
-        q = (employee *)malloc(sizeof(employee));
-        p->next = q;
-        head->prev = q;
-        q->prev = p;
-        q->next = head;
-        p = q;
-    }
+	if(fp == NULL)
+	{ 
+		printf("can not open file!\n");
+		getch();
+		exit(-1);
+	}
+
+    while(!feof(fp))   //将文件成员依次读入结构体
+	{
+		q = (employee *)malloc(sizeof(employee));
+		p->next = q;
+		head->prev = q;
+		q->prev = p;
+		q->next = head;
+		p = q;	
+
+		fscanf(fp,"%s%s%f%f%f%f%f%f%f",
+			&q->id , &q->name , &q->post_salary , 
+			&q->job_salary , &q->age_salary , 
+			&q->ach_salary , &q->all_salary ,
+			&q->tax , &q->ture_salary);
+		
+		n = n + 1;
+	}
+
+	(q->prev)->next = q->next;
+	(q->next)->prev = q->prev;
+	free(q);
+	n = n - 1;
+	fclose(fp);
+	printf("共有%d条记录被读取\n\n",n);
+	printf("press any key to continue");
+	getch();
+	system("cls");
 
 	return head;
 }
@@ -231,7 +247,7 @@ void grsds(struct worker *q)    //计算个人所得税函数
 	if( p -> all_salary < 0 )
 	{
 		printf("数值为负");
-		exit(-1);
+		return;
 	}
 
 	p -> tax = sum;
@@ -243,16 +259,14 @@ void add_worker(employee *head,int m)    //添加员工函数
 	int k;    //记录输入工号是否重复
 	char gonghao[10];    //定义员工工号
 	employee *p,*q;  
-	p = head;
-	p = p->next;
+	
+	p = head;    //将p得到链表尾部
+	p->prev = head->prev;
+	p = head->prev->next;
+	head = p->next;
+	head->prev = p;
 
-	while(m)    //得到第n个链表节点
-	{
-		p = p->next;
-		m = m - 1;
-	}
-
-	q = (employee *)malloc(sizeof(employee));    //在第n个员工后插入节点
+	q = (employee *)malloc(sizeof(employee));    //插入节点
 	(p->prev)->next = q;
 	q->prev = p->prev;
 	q->next = p;
@@ -265,7 +279,7 @@ void add_worker(employee *head,int m)    //添加员工函数
 	{
 		scanf("%s",gonghao);
 
-		for(i = 0;i < n+1; i++)
+		for(i = 0;i < n+2; i++)
 		{
 			k=strcmp(gonghao,p->id);
 			p = p->next;
@@ -463,7 +477,6 @@ void seek_worker(employee *head)		//查找函数
 
 	printf("\n\n");
 	printf("press any key to continue");
-	printf("press any key to continue");
 	getch();
 	system("cls");
 }
@@ -542,7 +555,7 @@ void see_worker(employee *head)    //浏览函数
 
 	printf("职工信息如下：\n");
 	printf("工号\t姓名\t岗位工资\t薪级工资\t职务津贴\t效绩工资\t应发工资\t个人所得税\t实发工资\t\n");
-	//for(i = 0;i < n;i++)
+
 	while(p!=head)
 	{
 		printf("\n");
@@ -599,7 +612,7 @@ void save(employee *head)			//保存函数
 	}
 	else
 	{
-		FILE *fp = fopen("22.txt","wb+");
+		FILE *fp = fopen("gx.dat","wb+");
 		
 		if(fp == NULL)
 		{
@@ -608,7 +621,7 @@ void save(employee *head)			//保存函数
 			exit(-1);
 		}
 		
-		for(i = 0;i < n;i++)    //写入文件
+		while(p != head)    //写入文件
 		{
 			fprintf(fp,"%s %s %.2f %.2f %.2f %.2f %.2f %.2f %.2f\n\t" ,
 				p->id , p->name , p->post_salary , 
@@ -639,117 +652,12 @@ int Exit()	//退出函数
 	return flag;
 };		
 
-void open_file(employee *head)		//打开文件函数
-{
-	FILE *fp = fopen("22.txt","rb");
-	employee *p = head;
-	p = p->next;
-		
-	if(fp == NULL)
-	{ 
-		printf("can not open file!\n");
-		getch();
-		exit(-1);
-	}
-	
-	for( i = 0;i < 100; i++)    //将文件成员依次读入结构体
-	{
-		int nRes = fscanf(fp,"%s%s%f%f%f%f%f%f%f",
-			&p->id , &p->name , &p->post_salary , 
-			&p->job_salary , &p->age_salary , 
-			&p->ach_salary , &p->all_salary ,
-			&p->tax , &p->ture_salary);
-
-		p = p->next;    //指向下一个节点
-		
-		if (nRes == -1)    //读完数据结束循环，得到成员数
-		{
-			n = i;
-			fclose(fp);
-			break;
-		}	
-		
-	}
-
-/*	p=head;
-	p=p->next;
-
-	for(i = 0;i < n;i++)
-	{
-		printf("工号：");
-		printf("%s\n", p->id);
-		
-		printf("姓名：");
-		printf("%s\n", p->name);
-		
-		printf("岗位工资：");
-		printf("%.2f\n", p->post_salary);
-		
-		printf("薪级工资：");
-		printf("%.2f\n", p->job_salary);
-		
-		printf("职务津贴：");
-		printf("%.2f\n", p->age_salary);
-		
-		printf("效绩工资：");
-		printf("%.2f\n", p->ach_salary);
-		
-		printf("应发工资：");
-		printf("%.2f\n", p->all_salary);
-		
-		printf("个人所得税：");
-		printf("%.2f\n", p->tax);
-		
-		printf("实发工资：");
-		printf("%.2f\n", p->ture_salary);
-
-		p=p->next;
-		printf("\n");
-	}
-*/
-	printf("共有%d条记录被读取\n\n",n);
-	printf("press any key to continue");
-	getch();
-	system("cls");
-}
-
-void content()		//计算文件员工个数
-{
-	FILE *fp = fopen("22.txt","rb");
-	
-	if(fp == NULL)
-	{ 
-		printf("can not open file!\n");
-		getchar();
-		exit(-1);
-	}
-	
-	for( i = 0;i < 1000; i++)
-	{
-		int nRes = fscanf(fp,"%s%s%f%f%f%f%f%f%f",
-			&member[i].id , &member[i].name , &member[i].post_salary , 
-			&member[i].job_salary , &member[i].age_salary , 
-			&member[i].ach_salary , &member[i].all_salary ,
-			&member[i].tax , &member[i].ture_salary);
-		
-		if (nRes == -1)
-		{
-			n = i;
-			fclose(fp);
-			break;
-		}	
-		
-	}
-}
-
 int main()
 {
 	employee *head;
 	int choose;    //作为选项参数
 	int flag = 1;
-	content();
 	head = createlist();
-	open_file(head);
 	while(flag)
 	{
 		printf("\t###  欢迎使用广西民族大学软件与信息安全学院职工工资管理系统  ###\n\n");
