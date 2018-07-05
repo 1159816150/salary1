@@ -7,7 +7,6 @@ Copyright (C), 1988-1999, Huawei Tech. Co., Ltd.
                                   // 制、顺序、独立或依赖等关系
  Others: 可计算个人所得税 // 其它内容的说明
  Function List: // 主要函数列表，每条记录应包括函数名及功能简要说明
-
  1.void grsds(struct worker *q)    //计算个人所得税函数
  2.void add_worker()    //添加员工函数
  3.void del_worker()       //删除员工函数
@@ -15,9 +14,7 @@ Copyright (C), 1988-1999, Huawei Tech. Co., Ltd.
  5.void change_worker()    //修改员工信息函数
  6.void see_worker()    //浏览函数
  7.int Exit()	//    退出程序函数
-
  History: // 修改历史记录列表，每条修改记录应包括修改日期、修改
-
 *******************************************************************************/
 #include<stdio.h>
 #include<stdlib.h>
@@ -39,7 +36,7 @@ typedef struct worker
     struct worker *next;
 }employee;
 
-employee *createlist()       //创建有50个元素的双向链表 
+employee *createlist()       //创建有60个元素的双向链表 
 {
     employee *head, *p, *q;
     head = (employee *)malloc(sizeof(employee));
@@ -47,7 +44,7 @@ employee *createlist()       //创建有50个元素的双向链表
     head->next = head;
     p = head;
 
-    for(i = 0;i < 50;i++)    
+    for(i = 0;i < 60;i++)    
     {
         q = (employee *)malloc(sizeof(employee));
         p->next = q;
@@ -515,28 +512,38 @@ void see_worker(employee *head)    //浏览函数
 		printf("\n");
 
 		printf("工号：");
-		printf("%s\n", p->id);
+		printf("%s\t", p->id);
 			
 		printf("姓名：");
-		printf("%s\n", p->name);
+		printf("%s\t", p->name);
 			
 		printf("岗位工资：");
-		printf("%.2f\n", p->post_salary);
+		printf("%.2f\t", p->post_salary);
 			
 		printf("薪级工资：");
 		printf("%.2f\n", p->job_salary);
 			
 		printf("职务津贴：");
-		printf("%.2f\n", p->age_salary);
+		printf("%.2f\t", p->age_salary);
 			
 		printf("效绩工资：");
-		printf("%.2f\n", p->ach_salary);
+		printf("%.2f\t", p->ach_salary);
 			
 		printf("应发工资：");
 		printf("%.2f\n", p->all_salary);
+
+		p -> all_salary 
+		= p -> ach_salary 
+		+ p -> job_salary 
+		+ p -> post_salary 
+		+ p -> age_salary;
+
+	    grsds(p);
+	
+	    p -> ture_salary = p -> all_salary - p-> tax;
 		
 		printf("个人所得税：");
-		printf("%.2f\n", p->tax);
+		printf("%.2f\t", p->tax);
 			
 		printf("实发工资：");
 		printf("%.2f\n", p->ture_salary);
@@ -633,7 +640,6 @@ void open_file(employee *head)		//打开文件函数
 
 /*	p=head;
 	p=p->next;
-
 	for(i = 0;i < n;i++)
 	{
 		printf("工号：");
@@ -662,7 +668,6 @@ void open_file(employee *head)		//打开文件函数
 		
 		printf("实发工资：");
 		printf("%.2f\n", p->ture_salary);
-
 		p=p->next;
 		printf("\n");
 	}
