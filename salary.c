@@ -252,7 +252,7 @@ void grsds(struct worker *q)    //计算个人所得税函数
 
 }
 
-void add_worker(employee *head,int m)    //添加员工函数
+void add_worker(employee *head)    //添加员工函数
 {
 	int k;    //记录输入工号是否重复
 	char gonghao[10];    //定义员工工号
@@ -675,7 +675,7 @@ int main()
 		{
 		case 1:seek_worker(head);break;
 		case 2:change_worker(head);break;
-		case 3:add_worker(head,n);break;
+		case 3:add_worker(head);break;
 		case 4:del_worker(head);break;
 		case 5:save(head);break;
 		case 6:see_worker(head);break;
