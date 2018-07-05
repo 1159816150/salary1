@@ -43,14 +43,12 @@ typedef struct worker
 
 employee *createlist()       //创建有n个元素的双向链表 
 {
-	char ch;
-	int m;
 	FILE *fp = fopen("gx.dat","rb");
-    employee *head, *p, *q, *s;
-    head = (employee *)malloc(sizeof(employee));
-    head->prev = head;
-    head->next = head;
-    p = head;
+	employee *head, *p, *q, *s;
+	head = (employee *)malloc(sizeof(employee));
+	head->prev = head;
+	head->next = head;
+	p = head;
 
 	if(fp == NULL)
 	{ 
@@ -656,8 +654,8 @@ int main()
 {
 	employee *head;
 	int choose;    //作为选项参数
-	int flag = 1;
-	head = createlist();
+	int flag = 1;    //作为循环结束判断
+	head = createlist();    //获取头结点
 	while(flag)
 	{
 		printf("\t###  欢迎使用广西民族大学软件与信息安全学院职工工资管理系统  ###\n\n");
