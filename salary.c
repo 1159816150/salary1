@@ -7,6 +7,7 @@ Copyright (C), 1988-1999, Huawei Tech. Co., Ltd.
                                   // 制、顺序、独立或依赖等关系
  Others: 可计算个人所得税 // 其它内容的说明
  Function List: // 主要函数列表，每条记录应包括函数名及功能简要说明
+
  1.void grsds(struct worker *q)    //计算个人所得税函数
  2.void add_worker()    //添加员工函数
  3.void del_worker()       //删除员工函数
@@ -14,14 +15,30 @@ Copyright (C), 1988-1999, Huawei Tech. Co., Ltd.
  5.void change_worker()    //修改员工信息函数
  6.void see_worker()    //浏览函数
  7.int Exit()	//    退出程序函数
+
  History: // 修改历史记录列表，每条修改记录应包括修改日期、修改
+
 *******************************************************************************/
 #include<stdio.h>
+#include<windows.h>
+#include <conio.h>
 #include<stdlib.h>
 #include<malloc.h>
 #include<string.h>
 int i = 0, j = 0;	//循环变量
 int n = 0;    //员工总人数
+
+struct people{
+    char id[10],name[20];   //员工工号和姓名
+    float post_salary;		//岗位工资
+    float age_salary;		//薪级工资	
+    float job_salary;		//职务津贴
+    float ach_salary;		//效绩工资
+    float all_salary;		//应发工资
+    float tax;				//个人所得税	
+    float ture_salary;		//实发工资
+}member[1000];
+
 typedef struct worker
 {
     char id[10],name[20];    //员工工号和姓名
@@ -36,7 +53,7 @@ typedef struct worker
     struct worker *next;
 }employee;
 
-employee *createlist()       //创建有60个元素的双向链表 
+employee *createlist()       //创建有50个元素的双向链表 
 {
     employee *head, *p, *q;
     head = (employee *)malloc(sizeof(employee));
@@ -44,7 +61,7 @@ employee *createlist()       //创建有60个元素的双向链表
     head->next = head;
     p = head;
 
-    for(i = 0;i < 60;i++)    
+    for(i = 0;i < n;i++)    
     {
         q = (employee *)malloc(sizeof(employee));
         p->next = q;
@@ -297,6 +314,9 @@ void add_worker(employee *head,int m)    //添加员工函数
 	printf("职工信息录入成功！\n");
 	n = n + 1;
 	printf("\n---------------------------------------------------------\n");
+	printf("press any key to continue");
+	getch();
+	system("cls");
 };	
 
 void del_worker(employee *head)       //删除函数
@@ -364,6 +384,7 @@ void del_worker(employee *head)       //删除函数
 	if(k!=0)
 	{
 		printf("该员工不存在\n");
+		getchar();
 	}
 	
 	if(flag)
@@ -377,6 +398,9 @@ void del_worker(employee *head)       //删除函数
 	}
 	
 	printf("\n---------------------------------------------------------\n");
+	printf("press any key to continue");
+	getch();
+	system("cls");
 };		
 
 void seek_worker(employee *head)		//查找函数
@@ -434,9 +458,14 @@ void seek_worker(employee *head)		//查找函数
 	if(k != 0)
 	{
 		printf("该员工不存在\n");
+		printf("press any key to continue");
 	}
 
 	printf("\n\n");
+	printf("press any key to continue");
+	printf("press any key to continue");
+	getch();
+	system("cls");
 }
 
 void change_worker(employee *head)    //修改函数
@@ -492,9 +521,15 @@ void change_worker(employee *head)    //修改函数
 	if(k!=0)
 	{
 		printf("该员工不存在\n");
+		printf("press any key to continue");
+		getch();
+		system("cls");
 	}
 	
 	printf("\n---------------------------------------------------------\n");
+	printf("press any key to continue");
+	getch();
+	system("cls");
 };
 	
 void see_worker(employee *head)    //浏览函数
@@ -506,52 +541,47 @@ void see_worker(employee *head)    //浏览函数
 	printf("---------------------------浏览--------------------------\n\n");
 
 	printf("职工信息如下：\n");
-
-	for(i = 0;i < n;i++)
+	printf("工号\t姓名\t岗位工资\t薪级工资\t职务津贴\t效绩工资\t应发工资\t个人所得税\t实发工资\t\n");
+	//for(i = 0;i < n;i++)
+	while(p!=head)
 	{
 		printf("\n");
 
-		printf("工号：");
 		printf("%s\t", p->id);
 			
-		printf("姓名：");
 		printf("%s\t", p->name);
 			
-		printf("岗位工资：");
-		printf("%.2f\t", p->post_salary);
+		printf("%.2f\t\t", p->post_salary);
 			
-		printf("薪级工资：");
-		printf("%.2f\n", p->job_salary);
+		printf("%.2f\t\t", p->job_salary);
 			
-		printf("职务津贴：");
-		printf("%.2f\t", p->age_salary);
+		printf("%.2f\t\t", p->age_salary);
 			
-		printf("效绩工资：");
-		printf("%.2f\t", p->ach_salary);
+		printf("%.2f\t\t", p->ach_salary);
 			
-		printf("应发工资：");
-		printf("%.2f\n", p->all_salary);
+		printf("%.2f\t\t", p->all_salary);
 
-		p -> all_salary 
-		= p -> ach_salary 
-		+ p -> job_salary 
-		+ p -> post_salary 
-		+ p -> age_salary;
-
-	    grsds(p);
-	
-	    p -> ture_salary = p -> all_salary - p-> tax;
+		p->all_salary = 
+			p->ach_salary 
+			+ p->job_salary 
+			+ p->post_salary 
+			+ p->age_salary;
+			
+		grsds(p);
+			
+		p->ture_salary = p->all_salary - p->tax;
 		
-		printf("个人所得税：");
-		printf("%.2f\t", p->tax);
+		printf("%.2f\t\t", p->tax);
 			
-		printf("实发工资：");
-		printf("%.2f\n", p->ture_salary);
+		printf("%.2f\t\t", p->ture_salary);
 
 		p = p->next;
 	}
 
 	printf("\n---------------------------------------------------------\n");
+	printf("press any key to continue");
+	getch();
+	system("cls");
 };		
 	
 void save(employee *head)			//保存函数
@@ -580,7 +610,7 @@ void save(employee *head)			//保存函数
 		
 		for(i = 0;i < n;i++)    //写入文件
 		{
-			fprintf(fp,"%s %s %.2f %.2f %.2f %.2f %.2f %.2f %.2f" ,
+			fprintf(fp,"%s %s %.2f %.2f %.2f %.2f %.2f %.2f %.2f\n\t" ,
 				p->id , p->name , p->post_salary , 
 				p->job_salary , p->age_salary , 
 				p->ach_salary , p->all_salary , 
@@ -595,6 +625,9 @@ void save(employee *head)			//保存函数
 	
 	printf("文件保存成功\n");
 	printf("\n---------------------------------------------------------\n");
+	printf("press any key to continue");
+	getch();
+	system("cls");
 }
 
 int Exit()	//退出函数	
@@ -615,7 +648,7 @@ void open_file(employee *head)		//打开文件函数
 	if(fp == NULL)
 	{ 
 		printf("can not open file!\n");
-		getchar();
+		getch();
 		exit(-1);
 	}
 	
@@ -640,6 +673,7 @@ void open_file(employee *head)		//打开文件函数
 
 /*	p=head;
 	p=p->next;
+
 	for(i = 0;i < n;i++)
 	{
 		printf("工号：");
@@ -668,19 +702,52 @@ void open_file(employee *head)		//打开文件函数
 		
 		printf("实发工资：");
 		printf("%.2f\n", p->ture_salary);
+
 		p=p->next;
 		printf("\n");
 	}
 */
 	printf("共有%d条记录被读取\n\n",n);
+	printf("press any key to continue");
+	getch();
+	system("cls");
 }
 
+void content()		//计算文件员工个数
+{
+	FILE *fp = fopen("22.txt","rb");
+	
+	if(fp == NULL)
+	{ 
+		printf("can not open file!\n");
+		getchar();
+		exit(-1);
+	}
+	
+	for( i = 0;i < 1000; i++)
+	{
+		int nRes = fscanf(fp,"%s%s%f%f%f%f%f%f%f",
+			&member[i].id , &member[i].name , &member[i].post_salary , 
+			&member[i].job_salary , &member[i].age_salary , 
+			&member[i].ach_salary , &member[i].all_salary ,
+			&member[i].tax , &member[i].ture_salary);
+		
+		if (nRes == -1)
+		{
+			n = i;
+			fclose(fp);
+			break;
+		}	
+		
+	}
+}
 
 int main()
 {
 	employee *head;
 	int choose;    //作为选项参数
 	int flag = 1;
+	content();
 	head = createlist();
 	open_file(head);
 	while(flag)
