@@ -57,7 +57,7 @@ employee *createlist()       //创建有n个元素的双向链表
 		exit(-1);
 	}
 
-    while(!feof(fp))   //将文件成员依次读入结构体
+	while(!feof(fp))   //将文件成员依次读入结构体
 	{
 		q = (employee *)malloc(sizeof(employee));
 		p->next = q;
