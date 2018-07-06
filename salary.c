@@ -7,7 +7,6 @@ Copyright (C), 1988-1999, Huawei Tech. Co., Ltd.
                                   // 制、顺序、独立或依赖等关系
  Others: 可计算个人所得税 // 其它内容的说明
  Function List: // 主要函数列表，每条记录应包括函数名及功能简要说明
-
  1.void grsds(struct worker *q)    //计算个人所得税函数
  2.void add_worker()    //添加员工函数
  3.void del_worker()       //删除员工函数
@@ -15,9 +14,8 @@ Copyright (C), 1988-1999, Huawei Tech. Co., Ltd.
  5.void change_worker()    //修改员工信息函数
  6.void see_worker()    //浏览函数
  7.int Exit()	//    退出程序函数
-
+ 8.employee *createlist()    //用于打开文件和创建链表
  History: // 修改历史记录列表，每条修改记录应包括修改日期、修改
-
 *******************************************************************************/
 #include<stdio.h>
 #include<windows.h>
@@ -72,14 +70,15 @@ employee *createlist()       //创建有n个元素的双向链表
 			&q->ach_salary , &q->all_salary ,
 			&q->tax , &q->ture_salary);
 		
-		n = n + 1;
+		n = n + 1;    //每输入一个增加一个员工数
 	}
 
-	(q->prev)->next = q->next;
+	(q->prev)->next = q->next;    //由于while（！feof（fp））会多输入一条数据
 	(q->next)->prev = q->prev;
-	free(q);
-	n = n - 1;
+	free(q);    //清掉多余数据
+	n = n - 1;    //员工数减一
 	fclose(fp);
+
 	printf("共有%d条记录被读取\n\n",n);
 	printf("press any key to continue");
 	getch();
@@ -344,7 +343,7 @@ void del_worker(employee *head)       //删除函数
 	printf("请输入需要删除员工的工号:");
 	scanf("%s",gonghao);
 	
-	while(p!=head)
+	while(p != head)
 	{
 		k = strcmp(gonghao,p->id);
 		if(k == 0)
@@ -382,7 +381,7 @@ void del_worker(employee *head)       //删除函数
 			
 			scanf("%d",&flag);
 
-			if(flag==1)
+			if(flag == 1 )
 			{
 				(p->prev)->next = p->next;
 				(p->next)->prev = p->prev;
@@ -401,7 +400,7 @@ void del_worker(employee *head)       //删除函数
 	
 	if(flag)
 	{
-		n=n-1;
+		n = n - 1;
 		printf("删除成功\n");
 	}
 	else
@@ -425,7 +424,7 @@ void seek_worker(employee *head)		//查找函数
 	printf("---------------------------查询--------------------------\n\n");
 	printf("请输入需要查找员工的工号:");
 	scanf("%s",gonghao);
-	while(p!=head)
+	while(p != head)
 	{
 		k = strcmp(gonghao,p->id);
 		if(k == 0)
@@ -490,7 +489,7 @@ void change_worker(employee *head)    //修改函数
 	printf("---------------------------修改--------------------------\n\n");
 	printf("请输入需要修改员工的工号:");
 	scanf("%s",gonghao);
-	while(p!=head)
+	while(p != head)
 	{
 		k = strcmp(gonghao , p->id);
 		if(k == 0)
@@ -554,7 +553,7 @@ void see_worker(employee *head)    //浏览函数
 	printf("职工信息如下：\n");
 	printf("工号\t姓名\t岗位工资\t薪级工资\t职务津贴\t效绩工资\t应发工资\t个人所得税\t实发工资\t\n");
 
-	while(p!=head)
+	while(p != head)
 	{
 		printf("\n");
 
@@ -673,13 +672,13 @@ int main()
 		scanf("%d",&choose);
 		switch(choose)
 		{
-		case 1:seek_worker(head);break;
-		case 2:change_worker(head);break;
-		case 3:add_worker(head);break;
-		case 4:del_worker(head);break;
-		case 5:save(head);break;
-		case 6:see_worker(head);break;
-		case 7:flag=Exit();break;
+		case 1:seek_worker(head); break;
+		case 2:change_worker(head); break;
+		case 3:add_worker(head); break;
+		case 4:del_worker(head); break;
+		case 5:save(head); break;
+		case 6:see_worker(head); break;
+		case 7:flag=Exit(); break;
 		default:printf("没有此功能\n\n");
 		}
 	}
